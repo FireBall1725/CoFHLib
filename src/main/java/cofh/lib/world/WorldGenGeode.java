@@ -7,6 +7,7 @@ import cofh.lib.util.WeightedRandomBlock;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -28,10 +29,14 @@ public class WorldGenGeode extends WorldGenerator {
 	}
 
 	@Override
-	public boolean generate(World world, Random rand, int xStart, int yStart, int zStart) {
+	public boolean generate(World world, Random rand, BlockPos position) {
 
 		int heightOff = height / 2;
 		int widthOff = width / 2;
+		int xStart = position.getX();
+		int yStart = position.getY();
+		int zStart = position.getZ();
+
 		xStart -= widthOff;
 		zStart -= widthOff;
 
@@ -130,4 +135,5 @@ public class WorldGenGeode extends WorldGenerator {
 
 		return r;
 	}
+
 }

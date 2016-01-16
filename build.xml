@@ -15,11 +15,11 @@
 	<property name="verclass.name" value="CoFHLibProps.java"/>
 	
 	<!-- Forge version -->
-	<property name="mc.version"  value="1.7.10"/>
-	<property name="forge.major" value="10"/>
-	<property name="forge.minor" value="13"/>
-	<property name="forge.patch" value="4"/>
-	<property name="forge.build" value="1448"/>
+	<property name="mc.version"  value="1.8.9"/>
+	<property name="forge.major" value="11"/>
+	<property name="forge.minor" value="15"/>
+	<property name="forge.patch" value="0"/>
+	<property name="forge.build" value="1702"/>
 	
 	<!-- Packaging -->
 	<property name="dist.dir" value="${build.dir}/dist"/>

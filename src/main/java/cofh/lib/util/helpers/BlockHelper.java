@@ -16,7 +16,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 /**
  * Contains various helper functions to assist with {@link Block} and Block-related manipulation and interaction.
@@ -175,9 +175,9 @@ public final class BlockHelper {
 		return direction;
 	}
 
-	public static ForgeDirection getMicroBlockAngle(ForgeDirection side, float hitX, float hitY, float hitZ) {
+	public static EnumFacing getMicroBlockAngle(EnumFacing side, float hitX, float hitY, float hitZ) {
 
-		return ForgeDirection.VALID_DIRECTIONS[getMicroBlockAngle(side.ordinal(), hitX, hitY, hitZ)];
+		return EnumFacing.VALID_DIRECTIONS[getMicroBlockAngle(side.ordinal(), hitX, hitY, hitZ)];
 	}
 
 	public static int getHighestY(World world, int x, int z) {
@@ -273,7 +273,7 @@ public final class BlockHelper {
 	}
 
 	/* UNSAFE Tile Entity Retrieval */
-	// public static TileEntity getAdjacentTileEntityUnsafe(World world, int x, int y, int z, ForgeDirection dir) {
+	// public static TileEntity getAdjacentTileEntityUnsafe(World world, int x, int y, int z, EnumFacing dir) {
 	//
 	// if (world == null) {
 	// return null;
@@ -284,10 +284,10 @@ public final class BlockHelper {
 	//
 	// public static TileEntity getAdjacentTileEntityUnsafe(World world, int x, int y, int z, int side) {
 	//
-	// return world == null ? null : getAdjacentTileEntityUnsafe(world, x, y, z, ForgeDirection.values()[side]);
+	// return world == null ? null : getAdjacentTileEntityUnsafe(world, x, y, z, EnumFacing.values()[side]);
 	// }
 	//
-	// public static TileEntity getAdjacentTileEntityUnsafe(TileEntity refTile, ForgeDirection dir) {
+	// public static TileEntity getAdjacentTileEntityUnsafe(TileEntity refTile, EnumFacing dir) {
 	//
 	// return refTile == null ? null : getAdjacentTileEntityUnsafe(refTile.worldObj, refTile.xCoord, refTile.yCoord, refTile.zCoord, dir);
 	// }
@@ -295,10 +295,10 @@ public final class BlockHelper {
 	// public static TileEntity getAdjacentTileEntityUnsafe(TileEntity refTile, int side) {
 	//
 	// return refTile == null ? null : getAdjacentTileEntityUnsafe(refTile.worldObj, refTile.xCoord, refTile.yCoord, refTile.zCoord,
-	// ForgeDirection.values()[side]);
+	// EnumFacing.values()[side]);
 	// }
 
-	public static Block getAdjacentBlock(World world, int x, int y, int z, ForgeDirection dir) {
+	public static Block getAdjacentBlock(World world, int x, int y, int z, EnumFacing dir) {
 
 		x += dir.offsetX;
 		y += dir.offsetY;
@@ -308,11 +308,11 @@ public final class BlockHelper {
 
 	public static Block getAdjacentBlock(World world, int x, int y, int z, int side) {
 
-		return world == null ? Blocks.air : getAdjacentBlock(world, x, y, z, ForgeDirection.getOrientation(side));
+		return world == null ? Blocks.air : getAdjacentBlock(world, x, y, z, EnumFacing.getOrientation(side));
 	}
 
 	/* Safe Tile Entity Retrieval */
-	public static TileEntity getAdjacentTileEntity(World world, int x, int y, int z, ForgeDirection dir) {
+	public static TileEntity getAdjacentTileEntity(World world, int x, int y, int z, EnumFacing dir) {
 
 		x += dir.offsetX;
 		y += dir.offsetY;
@@ -322,10 +322,10 @@ public final class BlockHelper {
 
 	public static TileEntity getAdjacentTileEntity(World world, int x, int y, int z, int side) {
 
-		return world == null ? null : getAdjacentTileEntity(world, x, y, z, ForgeDirection.getOrientation(side));
+		return world == null ? null : getAdjacentTileEntity(world, x, y, z, EnumFacing.getOrientation(side));
 	}
 
-	public static TileEntity getAdjacentTileEntity(TileEntity refTile, ForgeDirection dir) {
+	public static TileEntity getAdjacentTileEntity(TileEntity refTile, EnumFacing dir) {
 
 		return refTile == null ? null : getAdjacentTileEntity(refTile.getWorldObj(), refTile.xCoord, refTile.yCoord, refTile.zCoord, dir);
 	}
@@ -333,7 +333,7 @@ public final class BlockHelper {
 	public static TileEntity getAdjacentTileEntity(TileEntity refTile, int side) {
 
 		return refTile == null ? null : getAdjacentTileEntity(refTile.getWorldObj(), refTile.xCoord, refTile.yCoord, refTile.zCoord,
-				ForgeDirection.values()[side]);
+				EnumFacing.values()[side]);
 	}
 
 	public static int determineAdjacentSide(TileEntity refTile, int x, int y, int z) {

@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -102,14 +102,14 @@ public class FluidHelper {
 
 		TileEntity handler = BlockHelper.getAdjacentTileEntity(tile, side);
 
-		return handler instanceof IFluidHandler ? ((IFluidHandler) handler).drain(ForgeDirection.VALID_DIRECTIONS[side ^ 1], maxDrain, doDrain) : null;
+		return handler instanceof IFluidHandler ? ((IFluidHandler) handler).drain(EnumFacing.VALID_DIRECTIONS[side ^ 1], maxDrain, doDrain) : null;
 	}
 
 	public static int insertFluidIntoAdjacentFluidHandler(TileEntity tile, int side, FluidStack fluid, boolean doFill) {
 
 		TileEntity handler = BlockHelper.getAdjacentTileEntity(tile, side);
 
-		return handler instanceof IFluidHandler ? ((IFluidHandler) handler).fill(ForgeDirection.VALID_DIRECTIONS[side ^ 1], fluid, doFill) : 0;
+		return handler instanceof IFluidHandler ? ((IFluidHandler) handler).fill(EnumFacing.VALID_DIRECTIONS[side ^ 1], fluid, doFill) : 0;
 	}
 
 	// TODO: Replace with sided version post-1.8 Fluid revamp
@@ -153,7 +153,7 @@ public class FluidHelper {
 					}
 				}
 			}
-			handler.drain(ForgeDirection.UNKNOWN, fluid.amount, true);
+			handler.drain(EnumFacing.UNKNOWN, fluid.amount, true);
 			return true;
 		}
 		return false;
@@ -165,7 +165,7 @@ public class FluidHelper {
 		FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(container);
 
 		if (fluid != null) {
-			if (handler.fill(ForgeDirection.UNKNOWN, fluid, false) == fluid.amount || player.capabilities.isCreativeMode) {
+			if (handler.fill(EnumFacing.UNKNOWN, fluid, false) == fluid.amount || player.capabilities.isCreativeMode) {
 				ItemStack returnStack = FluidContainerRegistry.drainFluidContainer(container);
 				if (ServerHelper.isClientWorld(world)) {
 					return true;
@@ -178,7 +178,7 @@ public class FluidHelper {
 						}
 					}
 				}
-				handler.fill(ForgeDirection.UNKNOWN, fluid, true);
+				handler.fill(EnumFacing.UNKNOWN, fluid, true);
 				return true;
 			}
 		}

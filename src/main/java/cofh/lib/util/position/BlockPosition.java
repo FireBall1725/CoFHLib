@@ -9,10 +9,11 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 
@@ -21,17 +22,17 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 	public int x;
 	public int y;
 	public int z;
-	public ForgeDirection orientation;
+	public EnumFacing orientation;
 
 	public BlockPosition(int x, int y, int z) {
 
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		orientation = ForgeDirection.UNKNOWN;
+		orientation = null;
 	}
 
-	public BlockPosition(int x, int y, int z, ForgeDirection orientation) {
+	public BlockPosition(int x, int y, int z, EnumFacing orientation) {
 
 		this.x = x;
 		this.y = y;
@@ -54,21 +55,21 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 		z = tag.getInteger("bp_k");
 
 		if (!tag.hasKey("bp_dir")) {
-			orientation = ForgeDirection.UNKNOWN;
+			orientation = null;
 		} else {
-			orientation = ForgeDirection.getOrientation(tag.getByte("bp_dir"));
+			orientation = EnumFacing.getOrientation(tag.getByte("bp_dir"));
 		}
 	}
 
 	public BlockPosition(TileEntity tile) {
 
-		x = tile.xCoord;
-		y = tile.yCoord;
-		z = tile.zCoord;
+		x = tile.getPos().getX();
+		y = tile.getPos().getY();
+		z = tile.getPos().getZ();
 		if (tile instanceof IRotateableTile) {
 			orientation = ((IRotateableTile) tile).getDirectionFacing();
 		} else {
-			orientation = ForgeDirection.UNKNOWN;
+			orientation = null;
 		}
 	}
 
@@ -82,12 +83,12 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 		return new BlockPosition(x, y, z, orientation);
 	}
 
-	public BlockPosition copy(ForgeDirection orientation) {
+	public BlockPosition copy(EnumFacing orientation) {
 
 		return new BlockPosition(x, y, z, orientation);
 	}
 
-	public BlockPosition setOrientation(ForgeDirection o) {
+	public BlockPosition setOrientation(EnumFacing o) {
 
 		orientation = o;
 		return this;
@@ -111,19 +112,19 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 		return this;
 	}
 
-	public BlockPosition step(ForgeDirection dir) {
+	public BlockPosition step(EnumFacing dir) {
 
-		x += dir.offsetX;
-		y += dir.offsetY;
-		z += dir.offsetZ;
+		x += dir.getFrontOffsetX();
+		y += dir.getFrontOffsetY();
+		z += dir.getFrontOffsetZ();
 		return this;
 	}
 
-	public BlockPosition step(ForgeDirection dir, int dist) {
+	public BlockPosition step(EnumFacing dir, int dist) {
 
-		x += dir.offsetX * dist;
-		y += dir.offsetY * dist;
-		z += dir.offsetZ * dist;
+		x += dir.getFrontOffsetX() * dist;
+		y += dir.getFrontOffsetY() * dist;
+		z += dir.getFrontOffsetZ() * dist;
 		return this;
 	}
 
@@ -263,13 +264,13 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 	public List<BlockPosition> getAdjacent(boolean includeVertical) {
 
 		List<BlockPosition> a = new ArrayList<BlockPosition>(4 + (includeVertical ? 2 : 0));
-		a.add(copy(ForgeDirection.EAST).moveForwards(1));
-		a.add(copy(ForgeDirection.WEST).moveForwards(1));
-		a.add(copy(ForgeDirection.SOUTH).moveForwards(1));
-		a.add(copy(ForgeDirection.NORTH).moveForwards(1));
+		a.add(copy(EnumFacing.EAST).moveForwards(1));
+		a.add(copy(EnumFacing.WEST).moveForwards(1));
+		a.add(copy(EnumFacing.SOUTH).moveForwards(1));
+		a.add(copy(EnumFacing.NORTH).moveForwards(1));
 		if (includeVertical) {
-			a.add(copy(ForgeDirection.UP).moveForwards(1));
-			a.add(copy(ForgeDirection.DOWN).moveForwards(1));
+			a.add(copy(EnumFacing.UP).moveForwards(1));
+			a.add(copy(EnumFacing.DOWN).moveForwards(1));
 		}
 		return a;
 	}
@@ -281,7 +282,7 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 
 	public TileEntity getTileEntity(World world) {
 
-		return world.getTileEntity(x, y, z);
+		return world.getTileEntity(new BlockPos(x, y, z));
 	}
 
 	public Block getBlock(World world) {
@@ -292,7 +293,7 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 	@SuppressWarnings("unchecked")
 	public <T> T getTileEntity(World world, Class<T> targetClass) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
 		if (targetClass.isInstance(te)) {
 			return (T) te;
 		} else {
@@ -300,7 +301,7 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 		}
 	}
 
-	public static ForgeDirection getDirection(int xS, int yS, int zS, int x, int y, int z) {
+	public static EnumFacing getDirection(int xS, int yS, int zS, int x, int y, int z) {
 
 		int dir = 0;
 		if (y < yS) {
@@ -320,19 +321,19 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 		}
 		switch (dir) {
 		case 2:
-			return ForgeDirection.UP;
+			return EnumFacing.UP;
 		case 1:
-			return ForgeDirection.DOWN;
+			return EnumFacing.DOWN;
 		case 4:
-			return ForgeDirection.WEST;
+			return EnumFacing.WEST;
 		case 8:
-			return ForgeDirection.EAST;
+			return EnumFacing.EAST;
 		case 16:
-			return ForgeDirection.NORTH;
+			return EnumFacing.NORTH;
 		case 32:
-			return ForgeDirection.SOUTH;
+			return EnumFacing.SOUTH;
 		default:
-			return ForgeDirection.UNKNOWN;
+			return null;
 		}
 	}
 
@@ -358,20 +359,20 @@ public class BlockPosition implements Comparable<BlockPosition>, Serializable {
 		}
 	}
 
-	public static boolean blockExists(TileEntity start, ForgeDirection dir) {
+	public static boolean blockExists(TileEntity start, EnumFacing dir) {
 
-		final int x = start.xCoord + dir.offsetX, y = start.yCoord + dir.offsetY, z = start.zCoord + dir.offsetZ;
+		final int x = start.getPos().getX() + dir.getFrontOffsetX(), y = start.getPos().getY() + dir.getFrontOffsetY(), z = start.getPos().getZ() + dir.getFrontOffsetZ();
 		return start.getWorldObj().blockExists(x, y, z);
 	}
 
-	public static TileEntity getAdjacentTileEntity(TileEntity start, ForgeDirection dir) {
+	public static TileEntity getAdjacentTileEntity(TileEntity start, EnumFacing dir) {
 
-		final int x = start.xCoord + dir.offsetX, y = start.yCoord + dir.offsetY, z = start.zCoord + dir.offsetZ;
+		final int x = start.getPos().getX() + dir.getFrontOffsetX(), y = start.getPos().getY() + dir.getFrontOffsetY(), z = start.getPos().getZ() + dir.getFrontOffsetZ();
 		return getTileEntityRaw(start.getWorldObj(), x, y, z);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getAdjacentTileEntity(TileEntity start, ForgeDirection direction, Class<T> targetClass) {
+	public static <T> T getAdjacentTileEntity(TileEntity start, EnumFacing direction, Class<T> targetClass) {
 
 		TileEntity te = getAdjacentTileEntity(start, direction);
 		if (targetClass.isInstance(te)) {

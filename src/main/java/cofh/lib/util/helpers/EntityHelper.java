@@ -1,6 +1,6 @@
 package cofh.lib.util.helpers;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.Iterator;
 
@@ -14,7 +14,7 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 /**
  * This class contains various helper functions related to Entities.
@@ -44,9 +44,9 @@ public class EntityHelper {
 		}
 	}
 
-	public static ForgeDirection getEntityFacingForgeDirection(EntityLivingBase living) {
+	public static EnumFacing getEntityFacingEnumFacing(EntityLivingBase living) {
 
-		return ForgeDirection.VALID_DIRECTIONS[getEntityFacingCardinal(living)];
+		return EnumFacing.VALID_DIRECTIONS[getEntityFacingCardinal(living)];
 	}
 
 	public static void transferEntityToDimension(Entity entity, int dimension, ServerConfigurationManager manager) {

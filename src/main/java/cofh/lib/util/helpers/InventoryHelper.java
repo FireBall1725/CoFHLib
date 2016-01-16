@@ -9,7 +9,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 /**
  * This class contains helper functions related to Inventories and Inventory manipulation.
@@ -378,7 +378,7 @@ public class InventoryHelper {
 		if (tile instanceof IInventory) {
 			stack = insertItemStackIntoInventory((IInventory) tile, stack, BlockHelper.SIDE_OPPOSITE[side]);
 		} else {
-			stack = ((IItemDuct) tile).insertItem(ForgeDirection.VALID_DIRECTIONS[side ^ 1], stack);
+			stack = ((IItemDuct) tile).insertItem(EnumFacing.VALID_DIRECTIONS[side ^ 1], stack);
 		}
 		return stack;
 	}

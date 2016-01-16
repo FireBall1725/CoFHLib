@@ -9,6 +9,7 @@ import gnu.trove.set.hash.THashSet;
 import java.util.Random;
 import java.util.Set;
 
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -106,7 +107,7 @@ public abstract class FeatureBase implements IFeatureGenerator {
 			return false;
 		}
 		if (dimensionRestriction != GenRestriction.NONE) {
-			if (dimensionRestriction == GenRestriction.BLACKLIST == dimensions.contains(world.provider.dimensionId)) {
+			if (dimensionRestriction == GenRestriction.BLACKLIST == dimensions.contains(world.provider.getDimensionId())) {
 				return false;
 			}
 		}
@@ -122,7 +123,7 @@ public abstract class FeatureBase implements IFeatureGenerator {
 	protected boolean canGenerateInBiome(World world, int x, int z, Random rand) {
 
 		if (biomeRestriction != GenRestriction.NONE) {
-			BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
+			BiomeGenBase biome = world.getBiomeGenForCoords(new BlockPos(x, 0, z));
 			return !(biomeRestriction == GenRestriction.BLACKLIST == biomes.contains(biome, rand));
 		}
 		return true;

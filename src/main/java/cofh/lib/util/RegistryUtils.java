@@ -4,12 +4,12 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Multimap;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.RegistryDelegate;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.RegistryDelegate;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.image.BufferedImage;
 import java.util.IdentityHashMap;
@@ -72,7 +72,7 @@ public class RegistryUtils {
 			replacements = new IdentityHashMap<RegistryNamespaced, Multimap<String, Object>>(2);
 			MinecraftForge.EVENT_BUS.register(new RegistryUtils());
 			try {
-				DelegateClass = (Class<RegistryDelegate<?>>) Class.forName("cpw.mods.fml.common.registry.RegistryDelegate$Delegate");
+				DelegateClass = (Class<RegistryDelegate<?>>) Class.forName("net.minecraftforge.fml.common.registry.RegistryDelegate$Delegate");
 			} catch (Throwable e) {
 				Throwables.propagate(e);
 			}

@@ -10,6 +10,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fluids.Fluid;
@@ -81,14 +82,14 @@ public class FeatureGenUnderfluid extends FeatureBase {
 					}
 				}
 				for (WeightedRandomBlock mat : matList) {
-					if (block.isReplaceableOreGen(world, x, y, z, mat.block)) {
+					if (block.isReplaceableOreGen(world, new BlockPos(x, y, z), mat.block)) {
 						break l;
 					}
 				}
 			} while (y-- > 1);
 
 			if (y > 0) {
-				generated |= worldGen.generate(world, random, x, y, z);
+				generated |= worldGen.generate(world, random, new BlockPos(x, y, z));
 			}
 		}
 		return generated;
